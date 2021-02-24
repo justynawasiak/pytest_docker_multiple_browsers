@@ -1,0 +1,28 @@
+version: "3.0"
+services:
+  challenge:
+      build: .
+      container_name: f5_project
+      depends_on:
+          - selenium
+      volumes:
+        - ./results:/var/f5_project/results
+
+  selenium:
+    image: selenium/hub
+    ports:
+      - 4444:4444
+
+  chrome:
+    image: selenium/node-chrome
+    depends_on:
+      - selenium
+    environment:
+      - HUB_HOST=selenium
+
+  firefox:
+    image: selenium/node-firefox
+    depends_on:
+      - selenium
+    environment:
+      - HUB_HOST=selenium
